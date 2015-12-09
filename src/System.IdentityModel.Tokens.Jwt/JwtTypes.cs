@@ -28,58 +28,18 @@
 namespace System.IdentityModel.Tokens.Jwt
 {
     /// <summary>
-    /// List of header parameter names see: http://tools.ietf.org/html/rfc7519#section-5.
+    /// Specifies a JWT claims are encoded as the payload of JWS or JWE.
     /// </summary>
-    public struct JwtHeaderParameterNames
+    public enum JwtTypes
     {
         /// <summary>
-        /// see:http://tools.ietf.org/html/rfc7519#section-5
+        /// Indicates the JWT claims are encoded as JWS.
         /// </summary>
-        public const string Alg = "alg";
+        JWS,
 
         /// <summary>
-        /// see:http://tools.ietf.org/html/rfc7519#section-5
+        /// INdicates the JWE claims are encoded as JWE.
         /// </summary>
-        public const string Cty = "cty";
-
-        /// <summary>
-        /// see:http://tools.ietf.org/html/rfc7519#section-5
-        /// </summary>
-        public const string Enc = "enc";
-
-        /// <summary>
-        /// see:http://tools.ietf.org/html/rfc7519#section-5
-        /// </summary>
-        public const string Kid = "kid";
-
-        /// <summary>
-        /// see:http://tools.ietf.org/html/rfc7519#section-5
-        /// </summary>
-        public const string Jku = "jku";
-
-        /// <summary>
-        /// see:http://tools.ietf.org/html/rfc7519#section-5
-        /// </summary>
-        public const string Jwk = "jwk";
-
-        /// <summary>
-        /// see:http://tools.ietf.org/html/rfc7519#section-5
-        /// </summary>
-        public const string Typ = "typ";
-
-        /// <summary>
-        /// see:http://tools.ietf.org/html/rfc7519#section-5
-        /// </summary>
-        public const string X5c = "x5c";
-
-        /// <summary>
-        /// see:http://tools.ietf.org/html/rfc7519#section-5
-        /// </summary>
-        public const string X5t = "x5t";
-
-        /// <summary>
-        /// see:http://tools.ietf.org/html/rfc7519#section-5
-        /// </summary>
-        public const string X5u = "x5u";
+        JWE
     }
 }

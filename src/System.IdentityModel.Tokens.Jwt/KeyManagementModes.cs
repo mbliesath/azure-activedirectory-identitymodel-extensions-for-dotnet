@@ -27,36 +27,12 @@
 
 namespace System.IdentityModel.Tokens.Jwt
 {
-    /// <summary>
-    /// Constants for Json Web tokens.
-    /// </summary>
-    public static class JwtConstants
+     public enum KeyManagementModes
     {
-        /// <summary>
-        /// Short header type.
-        /// </summary>
-        public const string HeaderType = "JWT";
-
-        /// <summary>
-        /// Long header type.
-        /// </summary>
-        public const string HeaderTypeAlt = "http://openid.net/specs/jwt/1.0";
-
-        /// <summary>
-        /// Short token type.
-        /// </summary>
-        public const string TokenType = "JWT";
-
-        /// <summary>
-        /// Long token type.
-        /// </summary>
-        public const string TokenTypeAlt = "urn:ietf:params:oauth:token-type:jwt";
-
-        /// <summary>
-        /// Token format: 'header.payload.signature'. Signature is optional, but '.' is required.
-        /// </summary>
-        public const string JsonCompactSerializationRegex = @"^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]*$";
-
-        public const string JweCompactSerializationRegex = @"^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]*$";
+        DirectEncryption,
+        DirectKeyAgreement,
+        KeyWrapping,
+        KeyEncryption,
+        KeyAgreementWithKeyWrapping
     }
 }

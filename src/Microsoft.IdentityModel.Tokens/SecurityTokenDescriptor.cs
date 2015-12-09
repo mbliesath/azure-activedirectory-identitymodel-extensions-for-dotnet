@@ -69,5 +69,10 @@ namespace Microsoft.IdentityModel.Tokens
         /// Gets or sets the <see cref="ClaimsIdentity"/>.
         /// </summary>
         public ClaimsIdentity Subject { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="EncryptingCredentials"/>.
+        /// </summary>
+        public EncryptingCredentials EncryptCredentials { get; set; }
     }
 }
