@@ -45,12 +45,11 @@ namespace Microsoft.IdentityModel.Tokens
 #endif
 
 #if DOTNET5_4
-        public AsymmetricEncryptionProvider(AsymmetricSecurityKey key, string algorithm, RSAEncryptionPadding padding) : base(key, algorithm)
+        public AsymmetricEncryptionProvider(AsymmetricSecurityKey key, string algorithm) : base(key, algorithm)
         {
             if (key == null)
                 throw LogHelper.LogException<ArgumentNullException>("key");
 
-            Padding = padding;
             ResolveDotNetCoreEncryptionProvider(key, algorithm);
         }
 #else
@@ -65,14 +64,11 @@ namespace Microsoft.IdentityModel.Tokens
             if (key == null)
                 throw LogHelper.LogException<ArgumentNullException>("key");
 
-            IsOAEP = isOAEP;
             ResolveDotNetDesktopEncryptionProvider(key, algorithm);
         }
 #endif
 
 #if DOTNET5_4
-
-        public RSAEncryptionPadding Padding { get; set; }
 
         private void ResolveDotNetCoreEncryptionProvider(AsymmetricSecurityKey key, string algorithm)
         {
@@ -87,8 +83,34 @@ namespace Microsoft.IdentityModel.Tokens
 
             throw LogHelper.LogException<ArgumentOutOfRangeException>(LogMessages.IDX10641, key);
         }
+        public byte[] Encrypt(byte[] input, RSAEncryptionPadding padding)
+        {
+            if (input == null)
+                throw LogHelper.LogArgumentNullException("input");
+
+            if (input.Length == 0)
+                throw LogHelper.LogException<ArgumentException>(LogMessages.IDX10624);
+
+            if (_rsa != null)
+                return _rsa.Encrypt(input, padding);
+
+            throw LogHelper.LogException<InvalidOperationException>(LogMessages.IDX10644);
+        }
+
+        public byte[] Decrypt(byte[] input, RSAEncryptionPadding padding)
+        {
+            if (input == null)
+                throw LogHelper.LogArgumentNullException("input");
+
+            if (input.Length == 0)
+                throw LogHelper.LogException<ArgumentException>(LogMessages.IDX10624);
+
+            if (_rsa != null)
+                return _rsa.Decrypt(input, padding);
+
+            throw LogHelper.LogException<InvalidOperationException>(LogMessages.IDX10644);
+        }
 #else
-        public bool IsOAEP { get; set; }
 
         private void ResolveDotNetDesktopEncryptionProvider(AsymmetricSecurityKey key, string algorithm)
         {
@@ -102,6 +124,34 @@ namespace Microsoft.IdentityModel.Tokens
 
             throw LogHelper.LogException<ArgumentOutOfRangeException>(LogMessages.IDX10641, key);
         }
+
+        public byte[] Encrypt(byte[] input, bool isOAEP)
+        {
+            if (input == null)
+                throw LogHelper.LogArgumentNullException("input");
+
+            if (input.Length == 0)
+                throw LogHelper.LogException<ArgumentException>(LogMessages.IDX10624);
+
+            if (_rsaCryptoServiceProvider != null)
+                return _rsaCryptoServiceProvider.Encrypt(input, isOAEP);
+
+            throw LogHelper.LogException<InvalidOperationException>(LogMessages.IDX10644);
+        }
+
+        public byte[] Decrypt(byte[] input, bool isOAEP)
+        {
+            if (input == null)
+                throw LogHelper.LogArgumentNullException("input");
+
+            if (input.Length == 0)
+                throw LogHelper.LogException<ArgumentException>(LogMessages.IDX10624);
+
+            if (_rsaCryptoServiceProvider != null)
+                return _rsaCryptoServiceProvider.Decrypt(input, isOAEP);
+
+            throw LogHelper.LogException<InvalidOperationException>(LogMessages.IDX10644);
+        }
 #endif
 
         public override byte[] Encrypt(byte[] input)
@@ -114,10 +164,10 @@ namespace Microsoft.IdentityModel.Tokens
 
 #if DOTNET5_4
             if (_rsa != null)
-                return _rsa.Encrypt(input, Padding);
+                return _rsa.Encrypt(input, RSAEncryptionPadding.OaepSHA256);
 #else
             if (_rsaCryptoServiceProvider != null)
-                return _rsaCryptoServiceProvider.Encrypt(input, IsOAEP);
+                return _rsaCryptoServiceProvider.Encrypt(input, true);
 #endif
             throw LogHelper.LogException<InvalidOperationException>(LogMessages.IDX10644);
         }
@@ -132,10 +182,10 @@ namespace Microsoft.IdentityModel.Tokens
 
 #if DOTNET5_4
             if (_rsa != null)
-                return _rsa.Decrypt(input, Padding);
+                return _rsa.Decrypt(input, RSAEncryptionPadding.OaepSHA256);
 #else
             if (_rsaCryptoServiceProvider != null)
-                return _rsaCryptoServiceProvider.Decrypt(input, IsOAEP);
+                return _rsaCryptoServiceProvider.Decrypt(input, true);
 #endif
             throw LogHelper.LogException<InvalidOperationException>(LogMessages.IDX10644);
         }
