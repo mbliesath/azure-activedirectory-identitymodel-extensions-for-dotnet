@@ -237,6 +237,11 @@ namespace Microsoft.IdentityModel.Tokens.Tests
         }
 
         public static SecurityKey New { get { return new NotAsymmetricOrSymmetricSecurityKey(); } }
+
+        public override SignatureProvider GetSignatureProvider(string algorithm, bool verifyOnly)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class ReturnNullSymmetricSecurityKey : SymmetricSecurityKey
@@ -287,6 +292,11 @@ namespace Microsoft.IdentityModel.Tokens.Tests
         {
             get { throw new NotImplementedException(); }
         }
+
+        public override SignatureProvider GetSignatureProvider(string algorithm, bool verifyOnly)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     /// <summary>
@@ -308,6 +318,10 @@ namespace Microsoft.IdentityModel.Tokens.Tests
 
         public override int KeySize { get { return _key.KeySize; } }
 
+        public override SignatureProvider GetSignatureProvider(string algorithm, bool verifyOnly)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     /// <summary>
