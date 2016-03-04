@@ -95,7 +95,7 @@ namespace Microsoft.IdentityModel.Tokens
         public const string Sha512 = "SHA512";
         
 #pragma warning restore 1591
-        /// see: http://tools.ietf.org/html/rfc7518#section-4.1
+        // see: http://tools.ietf.org/html/rfc7518#section-4.1
         public const string Aes128KW = "A128KW";
         public const string Aes192KW = "A192KW";
         public const string Aes256KW = "A256KW";
@@ -105,5 +105,11 @@ namespace Microsoft.IdentityModel.Tokens
         public const string RsaOaep = "RSA-OAEP";
         public const string RsaOaep256 = "RSA-OAEP-256";
         public const string DirectEncryption = "dir";
+
+        // see https://tools.ietf.org/html/rfc7518#section-5
+        public const string A128CbcHS256 = "A128CBC-HS256";
+        public const string A192CbcHS384 = "A192CBC-HS384";
+        public const string A256CbcHS512 = "A256CBC-HS512";
+
     }
 }
