@@ -39,7 +39,6 @@ namespace Microsoft.IdentityModel.Tokens
     public class AsymmetricSignatureProvider : SignatureProvider
     {
 #if NETSTANDARD1_4
-        private bool _disposeRsa;
         private ECDsa _ecdsa;
         private HashAlgorithmName _hashAlgorithm;
         private RSA _rsa;
@@ -48,6 +47,7 @@ namespace Microsoft.IdentityModel.Tokens
         private string _hashAlgorithm;
         private RSACryptoServiceProvider _rsaCryptoServiceProvider;
 #endif
+        private bool _disposeRsa;
         private bool _disposeEcdsa;
         private bool _disposed;
         private IReadOnlyDictionary<string, int> _minimumAsymmetricKeySizeInBitsForSigningMap;
@@ -335,6 +335,7 @@ namespace Microsoft.IdentityModel.Tokens
                 {
                     _rsaCryptoServiceProvider = new RSACryptoServiceProvider();
                     (_rsaCryptoServiceProvider as RSA).ImportParameters(rsaKey.Parameters);
+                    _disposeRsa = true;
                 }
                 return;
             }
@@ -688,7 +689,7 @@ namespace Microsoft.IdentityModel.Tokens
                     if (_rsa != null && _disposeRsa)
                         _rsa.Dispose();
 #else
-                    if (_rsaCryptoServiceProvider != null)
+                    if (_rsaCryptoServiceProvider != null && _disposeRsa)
                         _rsaCryptoServiceProvider.Dispose();
 #endif
                     if (_ecdsa != null && _disposeEcdsa)
